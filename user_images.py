@@ -1,4 +1,5 @@
-#http://blog.tankorsmash.com/?p=266
+#https://github.com/5shekel/Imgur-tools
+
 import requests
 import json
 import pprint
@@ -43,6 +44,7 @@ if __name__ == '__main__':
     user_images(access_token, image_user_url)
 
 """
+#http://blog.tankorsmash.com/?p=266
 ## Create a dynamically named folder
 
 #get the time object for today
