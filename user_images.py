@@ -2,7 +2,6 @@
 
 
 import requests
-import json
 import pprint
 # import datetime
 # import os
@@ -14,36 +13,39 @@ from settings import access_token, username
 # access_token = "super-seceret-token"
 
 image_user_url = 'https://api.imgur.com/3/account/' + username + '/images/'
+image_user_url_ids = 'https://api.imgur.com/3/account/' + username + '/images/ids/'
 
 def user_images(access_token, image_user_url):
     #need to include the authorization headers, in order to make use of the access token
     headers = {"authorization": "Bearer {0}".format(access_token)}
-    r = requests.get(image_user_url, headers=headers, verify=False)
-    j = json.loads(r.text)
-    #debug
-    pprint.pprint(j)
+    response = requests.get(image_user_url, headers=headers, verify=False)
+    j = response.json()  # this generate a dict
+    #response model https://api.imgur.com/models/image
+    #pprint.pprint(j)  # debug
 
-    #get the list of images from j['gallery']
-    image_list = j['data']
-    print(len(image_list), 'images found in the gallery')
-    pp = pprint.PrettyPrinter(indent=4)
-    pp.pprint(image_list[0])
-
-    #list of pairs containing the image name and file extension
-    image_pairs = []
-    #extract image and file extension from dict
+    image_list = j['data']   # get the list of images from j['data']
     for image in image_list:
-        #get the raw image name
-        img_name = image['id']
-        #get the image extension(jpg, gif etc)
-        img_ext = image['type']
-        #append pair to list
-        image_pairs.append((img_name, img_ext))
-        pp.pprint(image_pairs)
+        images.append(str(image['link']))
 
 if __name__ == '__main__':
-    for x in range (0,2):
+    images = []
+
+def user_images_ids(access_token, image_user_url_ids):
+    #need to include the authorization headers, in order to make use of the access token
+    headers = {"authorization": "Bearer {0}".format(access_token)}
+    response = requests.get(image_user_url_ids, headers=headers, verify=False)
+    j = response.json()  # this generate a dict
+    #response model https://api.imgur.com/models/image
+    pprint.pprint(j)  # debug
+
+if __name__ == '__main__':
+    images = []
+    for x in range (0,127): #50 resaults per page.
         user_images(access_token, image_user_url+str(x))
+    pprint.pprint(images)
+
+#    user_images_ids(access_token, image_user_url_ids)  #  just the IDs
+
 
 """
 #http://blog.tankorsmash.com/?p=266

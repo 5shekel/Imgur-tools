@@ -41,6 +41,7 @@ def upload_kitten(client):
 # If you want to run this as a standalone script
 if __name__ == "__main__":
 	client = authenticate()
+	client.set_user_auth(credentials['access_token'], credentials['refresh_token'])
 	image = upload_kitten(client)
 
 	print("Image was posted! Go check your images you sexy beast!")

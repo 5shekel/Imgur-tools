@@ -8,6 +8,14 @@
 
 from imgurpython import ImgurClient
 from helpers import get_input, get_config
+def authed():
+	config = get_config()
+	config.read('auth.ini')
+	client_id = config.get('credentials', 'client_id')
+	access_token = config.get('credentials', 'access_token')
+	client_secret = config.get('credentials', 'client_secret')
+	client = ImgurClient(client_id, client_secret)
+	client.set_user_auth(credentials['access_token'], credentials['refresh_token'])
 
 def authenticate():
 	# Get client ID and secret from auth.ini
