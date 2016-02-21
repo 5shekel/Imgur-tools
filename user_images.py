@@ -1,26 +1,27 @@
-#https://github.com/5shekel/Imgur-tools
+# https://github.com/5shekel/Imgur-tools
+
 
 import requests
 import json
 import pprint
-import datetime
-import os
+# import datetime
+# import os
 
-#create file named settings.py and have your acces token there
-from settings import access_token
+# create file named settings.py and have your acces token there
+from settings import access_token, username
 # see http://blog.tankorsmash.com/?p=551 for how to make one.
 # or just uncomment  it here if you dont push back to git
-#access_token = "super-seceret-token"
+# access_token = "super-seceret-token"
 
-image_user_url = 'https://api.imgur.com/3/account/yair99/images/1'
+image_user_url = 'https://api.imgur.com/3/account/' + username + '/images/'
 
 def user_images(access_token, image_user_url):
     #need to include the authorization headers, in order to make use of the access token
-    headers = {"authorization":"Bearer {0}".format(access_token)}
+    headers = {"authorization": "Bearer {0}".format(access_token)}
     r = requests.get(image_user_url, headers=headers, verify=False)
     j = json.loads(r.text)
     #debug
-    #pprint.pprint(j)
+    pprint.pprint(j)
 
     #get the list of images from j['gallery']
     image_list = j['data']
@@ -41,7 +42,8 @@ def user_images(access_token, image_user_url):
         pp.pprint(image_pairs)
 
 if __name__ == '__main__':
-    user_images(access_token, image_user_url)
+    for x in range (0,2):
+        user_images(access_token, image_user_url+str(x))
 
 """
 #http://blog.tankorsmash.com/?p=266
